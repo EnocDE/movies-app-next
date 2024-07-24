@@ -43,7 +43,7 @@ export default function MoviesTrending() {
 
   return (
     <section>
-      <MenuSelectionHeader setOptionState={setTrend} optionState={trend} menuSelection={MoviesTrendingMenuSelection} />
+      <MenuSelectionHeader setOptionState={setTrend} optionState={trend} menuSelectionData={MoviesTrendingMenuSelection} />
       <SliderGenre type="movie" setGenre={setGenre} currentGenre={genre} />
       <MoviesList movies={filteredMovies} />
     </section>
