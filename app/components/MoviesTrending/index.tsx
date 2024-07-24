@@ -1,0 +1,51 @@
+"use client";
+import MenuSelectionHeader from "@/components/MenuSelectionHeader";
+import MoviesList from "@/components/MoviesList";
+import { api } from "@/lib/AxiosConfig";
+import { MoviesSchema, MovieType } from "@/types/movies-response";
+import { useEffect, useState } from "react";
+import { MoviesTrendingMenuSelection } from "./data";
+import SliderGenre from "@/components/SliderGenre";
+
+export default function MoviesTrending() {
+  const [trend, setTrend] = useState("now_playing");
+  const [movies, setMovies] = useState<MovieType[]>();
+  const [genre, setGenre] = useState<number | undefined>();
+
+  useEffect(() => {
+    (async () => {
+      const filters = `?adults=false`;
+      const url = `${process.env.NEXT_PUBLIC_TMDB_URL}/3/movie/${trend}${filters}`;
+      setGenre(undefined)
+      try {
+        const response = await api(url);
+        if (response.status !== 200)
+          throw new Error("Error fetching movies on trending");
+        const result = MoviesSchema.safeParse(response.data);
+        if (!result.success)
+          throw new Error("Error parsing movies on trending data");
+        setMovies(result?.data?.results);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [trend]);
+
+  const filterByGenre = () => {
+    if (genre && movies?.length) {
+      return movies.filter((movie) => movie.genre_ids.includes(genre));
+    } else {
+      return movies;
+    }
+  };
+
+  const filteredMovies = filterByGenre();
+
+  return (
+    <section>
+      <MenuSelectionHeader setOptionState={setTrend} optionState={trend} menuSelection={MoviesTrendingMenuSelection} />
+      <SliderGenre type="movie" setGenre={setGenre} currentGenre={genre} />
+      <MoviesList movies={filteredMovies} />
+    </section>
+  );
+}
