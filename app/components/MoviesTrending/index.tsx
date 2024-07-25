@@ -1,11 +1,11 @@
 "use client";
+import GenreSlider from "@/components/GenreSlider";
 import MenuSelectionHeader from "@/components/MenuSelectionHeader";
 import MoviesList from "@/components/MoviesList";
 import { api } from "@/lib/AxiosConfig";
 import { MoviesSchema, MovieType } from "@/types/movies-response";
 import { useEffect, useState } from "react";
 import { MoviesTrendingMenuSelection } from "./data";
-import SliderGenre from "@/components/SliderGenre";
 
 export default function MoviesTrending() {
   const [trend, setTrend] = useState("now_playing");
@@ -16,7 +16,7 @@ export default function MoviesTrending() {
     (async () => {
       const filters = `?adults=false`;
       const url = `${process.env.NEXT_PUBLIC_TMDB_URL}/3/movie/${trend}${filters}`;
-      setGenre(undefined)
+      setGenre(undefined);
       try {
         const response = await api(url);
         if (response.status !== 200)
@@ -43,8 +43,12 @@ export default function MoviesTrending() {
 
   return (
     <section>
-      <MenuSelectionHeader setOptionState={setTrend} optionState={trend} menuSelectionData={MoviesTrendingMenuSelection} />
-      <SliderGenre type="movie" setGenre={setGenre} currentGenre={genre} />
+      <MenuSelectionHeader
+        setOptionState={setTrend}
+        optionState={trend}
+        menuSelectionData={MoviesTrendingMenuSelection}
+      />
+      <GenreSlider type="movie" setGenre={setGenre} currentGenre={genre} />
       <MoviesList movies={filteredMovies} />
     </section>
   );
