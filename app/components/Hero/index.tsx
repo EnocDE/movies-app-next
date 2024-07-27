@@ -24,7 +24,7 @@ async function getMainMovieInfo() {
 }
 
 export default async function Hero() {
-  const movie = (await getMainMovieInfo()) as MovieType;
+  const movie = await getMainMovieInfo() as MovieType;
 
   const vote_average = truncateRating(movie?.vote_average) || "N/A";
   const original_title = movie?.original_title || "Uknown title";
@@ -34,8 +34,7 @@ export default async function Hero() {
 
   const bgUrl =
     (backdrop_path &&
-      `${process.env.NEXT_PUBLIC_TMDB_IMAGES}/t/p/original${backdrop_path}`) ||
-    defaultMoviePoster;
+      `${process.env.NEXT_PUBLIC_TMDB_IMAGES}/t/p/original${backdrop_path}`) || defaultMoviePoster;
 
   return (
     <main
