@@ -3,7 +3,7 @@ import { GenresSchema, GenreType } from "@/types/gender-response";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 interface GenreSliderProps {
-  type: "movie" | "tv" | "all";
+  type: "movie" | "tv";
   setGenre: Dispatch<SetStateAction<number | undefined>>;
   currentGenre: number | undefined;
 }
@@ -13,53 +13,20 @@ export default function GenreSlider(props: GenreSliderProps) {
   const [genres, setGenres] = useState<GenreType[]>();
 
   useEffect(() => {
-    if (type === "all") {
-      (async () => {
-        const urlTv = `${process.env.NEXT_PUBLIC_TMDB_URL}/3/genre/tv/list`;
-        const urlMovie = `${process.env.NEXT_PUBLIC_TMDB_URL}/3/genre/movie/list`;
-        try {
-          const [tvResponse, movieResponse] = await Promise.all([
-            api(urlTv),
-            api(urlMovie),
-          ]);
-          if (tvResponse.status !== 200 && movieResponse.status !== 200)
-            throw new Error("Error fetching movies and tv genres");
-          const [tvResult, movieResult] = await Promise.all([
-            GenresSchema.safeParse(tvResponse?.data),
-            GenresSchema.safeParse(movieResponse?.data),
-          ]);
-          if (!tvResult.success && !movieResult.success)
-            throw new Error("Error parsing tv and movie genres data");
-          const genres = [tvResult.data?.genres, tvResult.data?.genres].flat();
-
-          const uniqueGenres: GenreType[] = [];
-          for (const genre of genres) {
-            if (genre && !uniqueGenres.includes(genre)) {
-              uniqueGenres.push(genre);
-            }
-          }
-
-          setGenres(uniqueGenres);
-        } catch (error) {
-          console.error(error);
-        }
-      })();
-    } else {
-      (async () => {
-        const url = `${process.env.NEXT_PUBLIC_TMDB_URL}/3/genre/${type}/list`;
-        try {
-          const response = await api(url);
-          if (response.status !== 200)
-            throw new Error("Error fetching movies on trending");
-          const result = GenresSchema.safeParse(response.data);
-          if (!result.success)
-            throw new Error("Error parsing movies on trending data");
-          setGenres(result.data.genres);
-        } catch (error) {
-          console.error(error);
-        }
-      })();
-    }
+    (async () => {
+      const url = `${process.env.NEXT_PUBLIC_TMDB_URL}/3/genre/${type}/list`;
+      try {
+        const response = await api(url);
+        if (response.status !== 200)
+          throw new Error("Error fetching movies on trending");
+        const result = GenresSchema.safeParse(response.data);
+        if (!result.success)
+          throw new Error("Error parsing movies on trending data");
+        setGenres(result.data.genres);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
   }, [type]);
 
   const genreItemRef = useRef<HTMLLIElement>(null);
