@@ -1,11 +1,12 @@
 "use client";
 
 import { MovieType } from "@/types/movies-response";
+import { SerieType } from "@/types/series-response";
 import { useRef } from "react";
 import MovieCard from "../MovieCard";
 
 interface MoviesListProps {
-  movies: MovieType[] | undefined;
+  movies: MovieType[] | SerieType[] | undefined;
 }
 
 export default function MoviesList(props: MoviesListProps) {
@@ -49,10 +50,7 @@ export default function MoviesList(props: MoviesListProps) {
           ) : (
             <>
               {Array.from({ length: 10 }).map((_, index) => (
-                <MovieCard
-                  key={index}
-                  movieCardRef={movieCardRef}
-                />
+                <MovieCard key={index} movieCardRef={movieCardRef} />
               ))}
             </>
           )}
