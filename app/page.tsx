@@ -1,6 +1,6 @@
 import Hero from "./components/Hero";
+import MoviesAndSeries from "./components/MoviesAndSeries";
 import MoviesTrending from "./components/MoviesTrending";
-import MoviesOnTrend from "./components/MoviesTrending";
 
 
 export default async function Home() {
@@ -8,6 +8,7 @@ export default async function Home() {
     <>
       <Hero />
       <MoviesTrending />
+      <MoviesAndSeries />
     </>
   );
 }
