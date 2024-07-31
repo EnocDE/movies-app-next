@@ -1,15 +1,16 @@
 import z from "zod"
+import { VisualContentDataSchema } from "./movies-series-response"
 
 export const MovieSchema = z.object({
   adult: z.boolean(),
-  backdrop_path: z.string().nullable(),
+  backdrop_path: z.string().nullish(),
   genre_ids: z.array(z.number()),
   id: z.number(),
   original_language: z.string(),
   original_title: z.string(),
   overview: z.string(),
   popularity: z.number(),
-  poster_path: z.string().nullable(),
+  poster_path: z.string().nullish(),
   release_date: z.string(),
   title: z.string(),
   video: z.boolean(),
@@ -17,11 +18,12 @@ export const MovieSchema = z.object({
   vote_count: z.number()
 })
 
-export const MoviesSchema = z.object({
-  page: z.number(),
-  results: z.array(MovieSchema),
-  total_pages: z.number(),
-  total_results: z.number()
+export const MoviesSchema = VisualContentDataSchema.pick({
+  page: true,
+  total_pages: true,
+  total_results: true,
+}).extend({
+  results: z.array(MovieSchema)
 })
 
 export type MovieType = z.infer<typeof MovieSchema>
