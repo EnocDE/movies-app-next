@@ -1,4 +1,4 @@
 export type MenuSelectionType = {
   name: string
-  url: string
+  type: "tv" | "movie"
 }
