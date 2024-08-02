@@ -1,20 +1,29 @@
 "use client";
 
-import { MovieType } from "@/types/movies-response";
+import { MoviesResultsSchema, MoviesSchema, MovieType } from "@/types/movies-response";
 import { SerieType } from "@/types/series-response";
 import { useRef } from "react";
 import MovieCard from "../MovieCard";
 
 interface MoviesListProps {
-  movies: MovieType[] | SerieType[] | undefined;
+  movies: undefined | unknown;
+  classNames?: string;
 }
 
 export default function MoviesList(props: MoviesListProps) {
-  const { movies } = props;
+  const { movies, classNames } = props;
+  
+  let items : SerieType[] | MovieType[];
+  if (MoviesResultsSchema.safeParse(movies).success) {
+    items = movies as MovieType[];
+  } else {
+    items = movies as SerieType[];
+  }
 
   const movieCardRef = useRef<HTMLLIElement>(null);
   const moviesListRef = useRef<HTMLUListElement>(null);
   const movieListContainerRef = useRef<HTMLDivElement>(null);
+
   const slideMoviesListToRight = () => {
     if (moviesListRef.current && movieCardRef.current) {
       const widthCard = movieCardRef.current.offsetWidth + 40;
@@ -29,21 +38,22 @@ export default function MoviesList(props: MoviesListProps) {
     }
   };
 
+
   return (
     <section>
       <div
         ref={movieListContainerRef}
-        className="relative after:block after:absolute after:inset-0 after:dark:bg-gradient-btt-h after:bg-gradient-btw-h after:pointer-events-none after:z-10 "
+        className={`relative after:block after:absolute after:inset-0 after:dark:bg-gradient-btt-h after:pointer-events-none after:z-10 ${classNames}`}
       >
         <ul
           ref={moviesListRef}
           className="w-full flex gap-5 overflow-x-auto disable-scrollbar snap-mandatory snap-x justify-items-center"
         >
-          {movies != null && movies.length ? (
-            movies.map((movie) => (
+          {items != null && items.length ? (
+            items.map((item) => (
               <MovieCard
-                key={movie.id}
-                movie={movie}
+                key={item.id}
+                movie={item as MovieType}
                 movieCardRef={movieCardRef}
               />
             ))
