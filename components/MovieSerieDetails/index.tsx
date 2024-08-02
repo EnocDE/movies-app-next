@@ -5,7 +5,7 @@ import { SerieRecommendationsSchema } from "@/types/serie-recommendation-respons
 import { defaultBackdrop, defaultPoster, truncateRating } from "@/utils";
 import { Image } from "@nextui-org/react";
 import DetailsGenresList from "../DetailsGenresList";
-import MoviesList from "../MoviesList";
+import ItemsList from "../ItemsList";
 
 interface MovieSerieDetailsProps {
   uknownItem: unknown;
@@ -92,8 +92,8 @@ export default function MovieSerieDetails(props: MovieSerieDetailsProps) {
 
         <section>
           <h3 className="text-3xl font-bold text-white mx-auto w-[90%] mb-5">Recommended movies</h3>
-          <MoviesList
-            movies={itemRecommendations}
+          <ItemsList
+            uknownItems={itemRecommendations}
             classNames="text-white"
           />
         </section>
