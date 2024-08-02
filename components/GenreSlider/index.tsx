@@ -1,9 +1,10 @@
 import { api } from "@/lib/AxiosConfig";
 import { GenresSchema, GenreType } from "@/types/gender-response";
+import { MenuSelectionType } from "@/types/menu-selection";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 interface GenreSliderProps {
-  type: "movie" | "tv";
+  type: MenuSelectionType["type"];
   setGenre: Dispatch<SetStateAction<number | undefined>>;
   currentGenre: number | undefined;
 }
@@ -66,7 +67,7 @@ export default function GenreSlider(props: GenreSliderProps) {
               <li
                 ref={genreItemRef}
                 key={genre.id}
-                className={`block flex-shrink-0 w-[120px] md:w-[200px] py-2 text-center text-nowrap bg-red-600 text-white rounded-full snap-center hover:cursor-pointer transition-transform select-none ${
+                className={`block p-2 flex-shrink-0 w-fit md:w-[120px] lg:w-[200px] py-2 text-center text-nowrap bg-red-600 text-white rounded-full snap-center hover:cursor-pointer transition-transform select-none ${
                   currentGenre === genre.id ? "bg-red-800" : ""
                 }`}
                 onClick={() => handleSetGenre(genre.id)}
