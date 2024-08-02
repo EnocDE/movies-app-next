@@ -3,7 +3,7 @@
 import { MoviesResultsSchema, MovieType } from "@/types/movies-response";
 import { SerieType } from "@/types/series-response";
 import { useRef } from "react";
-import ItemCard from "../MovieCard";
+import ItemCard from "../ItemCard";
 
 interface ItemsListProps {
   uknownItems: undefined | unknown;
