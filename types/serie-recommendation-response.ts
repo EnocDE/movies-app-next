@@ -1,7 +1,7 @@
 import z from "zod"
 import { VisualContentDataSchema } from "./movies-series-response"
 
-const SerieRecommendationSchema = z.object({
+export const SerieRecommendationSchema = z.object({
   backdrop_path: z.string().nullish(),
   id: z.number(),
   name: z.string(),
