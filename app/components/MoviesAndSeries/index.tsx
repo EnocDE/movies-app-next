@@ -1,13 +1,13 @@
 "use client";
+import GenreSlider from "@/components/GenreSlider";
+import ItemsList from "@/components/ItemsList";
 import MenuSelectionHeader from "@/components/MenuSelectionHeader";
-import MoviesList from "@/components/MoviesList";
 import { api } from "@/lib/AxiosConfig";
+import { MenuSelectionType } from "@/types/menu-selection";
 import { MoviesSchema, MovieType } from "@/types/movies-response";
 import { SeriesSchema, SerieType } from "@/types/series-response";
 import { useEffect, useState } from "react";
 import { MoviesTrendingMenuSelection } from "./data";
-import GenreSlider from "@/components/GenreSlider";
-import { MenuSelectionType } from "@/types/menu-selection";
 
 export default function MoviesAndSeries() {
   const [option, setOption] = useState<MenuSelectionType["type"]>("tv");
@@ -54,7 +54,7 @@ export default function MoviesAndSeries() {
         setOptionState={setOption}
       />
       <GenreSlider currentGenre={genre} setGenre={setGenre} type={option} />
-      <MoviesList movies={filteredItems} />
+      <ItemsList uknownItems={filteredItems} />
     </div>
   );
 }
