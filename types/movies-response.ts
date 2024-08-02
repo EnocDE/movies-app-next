@@ -18,12 +18,14 @@ export const MovieSchema = z.object({
   vote_count: z.number()
 })
 
+export const MoviesResultsSchema = z.array(MovieSchema)
+
 export const MoviesSchema = VisualContentDataSchema.pick({
   page: true,
   total_pages: true,
   total_results: true,
 }).extend({
-  results: z.array(MovieSchema)
+  results: MoviesResultsSchema
 })
 
 export type MovieType = z.infer<typeof MovieSchema>
