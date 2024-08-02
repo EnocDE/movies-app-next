@@ -25,7 +25,7 @@ export default async function MovieGenresList(props: MoviesGenresListProps) {
   const { genre_ids } = props;
   const { genres } = await getMoviesGender() as GenresType;
   return (
-    <div className="mt-3 flex flex-wrap gap-3">
+    <div className="my-3 flex flex-wrap gap-3">
       {genre_ids.map((genre) => (
         <MovieGenreTag key={genre} genreId={genre} genres={genres} />
       ))}
