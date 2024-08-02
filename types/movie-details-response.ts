@@ -27,7 +27,7 @@ export const GenresSchema = z.object({
 export const BelogToCollectionSchema = z.object({
   id: z.number(),
   name: z.string(),
-  poster_path: z.string(),
+  poster_path: z.string().nullish(),
   backdrop_path: z.string().nullish()
 })
 
@@ -49,13 +49,11 @@ export const MovieDetailsSchema = MovieSchema.pick({
   budget: z.number(),
   genres: z.array(GenresSchema),
   homepage: z.string(),
-
-  imdb_id: z.string(),
+  imdb_id: z.string().nullish(),
   origin_country: z.array(z.string()),
   popularity: z.number(),
   poster_path: z.string(),
-  production_companies: z.array(ProductionCompaniesSchema)
-  ,
+  production_companies: z.array(ProductionCompaniesSchema),
   production_countries: z.array(ProductionCountriesSchema),
   release_date: z.string(),
   revenue: z.number(),
