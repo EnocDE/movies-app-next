@@ -7,7 +7,7 @@ const SerieRecommendationSchema = z.object({
   name: z.string(),
   original_name: z.string(),
   overview: z.string(),
-  poster_path: z.string(),
+  poster_path: z.string().nullish(),
   media_type: z.string(),
   adult: z.boolean(),
   original_language: z.string(),
