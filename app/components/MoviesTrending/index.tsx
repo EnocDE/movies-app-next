@@ -1,12 +1,12 @@
 "use client";
 import GenreSlider from "@/components/GenreSlider";
+import ItemsList from "@/components/ItemsList";
 import MenuSelectionHeader from "@/components/MenuSelectionHeader";
-import MoviesList from "@/components/MoviesList";
 import { api } from "@/lib/AxiosConfig";
+import { MenuSelectionType } from "@/types/menu-selection";
 import { MoviesSchema, MovieType } from "@/types/movies-response";
 import { useEffect, useState } from "react";
 import { MoviesTrendingMenuSelection } from "./data";
-import { MenuSelectionType } from "@/types/menu-selection";
 
 export default function MoviesTrending() {
   const [trend, setTrend] = useState<MenuSelectionType["type"]>("now_playing");
@@ -50,7 +50,7 @@ export default function MoviesTrending() {
         menuSelectionData={MoviesTrendingMenuSelection}
       />
       <GenreSlider type="movie" setGenre={setGenre} currentGenre={genre} />
-      <MoviesList movies={filteredMovies} />
+      <ItemsList uknownItems={filteredMovies} />
     </section>
   );
 }
