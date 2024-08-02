@@ -6,9 +6,10 @@ import { api } from "@/lib/AxiosConfig";
 import { MoviesSchema, MovieType } from "@/types/movies-response";
 import { useEffect, useState } from "react";
 import { MoviesTrendingMenuSelection } from "./data";
+import { MenuSelectionType } from "@/types/menu-selection";
 
 export default function MoviesTrending() {
-  const [trend, setTrend] = useState("now_playing");
+  const [trend, setTrend] = useState<MenuSelectionType["type"]>("now_playing");
   const [movies, setMovies] = useState<MovieType[]>();
   const [genre, setGenre] = useState<number | undefined>();
 
