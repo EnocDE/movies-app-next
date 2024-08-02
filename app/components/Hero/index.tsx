@@ -3,7 +3,7 @@ import MovieGenresList from "@/components/MovieGenresList";
 import { api } from "@/lib/AxiosConfig";
 import { MovieType } from "@/types/movies-response";
 import { MoviesNowPlayingSchema } from "@/types/now-playing-response";
-import { defaultMoviePoster, truncateRating } from "@/utils";
+import { defaultHeroPoster, truncateRating } from "@/utils";
 
 async function getMainMovieInfo() {
   const page = Math.ceil(Math.random() * 2);
@@ -24,23 +24,23 @@ async function getMainMovieInfo() {
 }
 
 export default async function Hero() {
-  const movie = await getMainMovieInfo() as MovieType;
+  const movie = (await getMainMovieInfo()) as MovieType;
 
   const vote_average = truncateRating(movie?.vote_average) || "N/A";
   const original_title = movie?.original_title || "Uknown title";
   const overview = movie?.overview || "No description available";
-  const backdrop_path = movie?.backdrop_path || false;
   const genre_ids = movie?.genre_ids || [];
+  const id = movie?.id;
 
-  const bgUrl =
-    (backdrop_path &&
-      `${process.env.NEXT_PUBLIC_TMDB_IMAGES}/t/p/original${backdrop_path}`) || defaultMoviePoster;
+  const backdrop_path = movie?.backdrop_path
+    ? `${process.env.NEXT_PUBLIC_TMDB_IMAGES}/t/p/original${movie?.backdrop_path}`
+    : defaultHeroPoster;
 
   return (
     <main
       className={`flex items-center min-h-[500px] md:h-[800px] bg-cover bg-no-repeat bg-center relative after:block after:absolute after:inset-0 after:bg-black/30`}
       style={{
-        backgroundImage: `url(${bgUrl})`,
+        backgroundImage: `url(${backdrop_path})`,
       }}
     >
       <div className="p-5 py-10 md:p-32 text-white relative z-10 w-full">
@@ -54,7 +54,7 @@ export default async function Hero() {
           <ButtonWithLink
             color="danger"
             name="Watch"
-            url="#"
+            url={`/movie/${id}`}
             classLink="block md:inline"
             classButton="w-full md:w-fit"
           />
