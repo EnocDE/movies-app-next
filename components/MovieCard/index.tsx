@@ -1,6 +1,6 @@
 import { MovieType } from "@/types/movies-response";
 import { SerieType } from "@/types/series-response";
-import { truncateRating } from "@/utils";
+import { defaultPoster, truncateRating } from "@/utils";
 import { Button, Image, Skeleton } from "@nextui-org/react";
 import Link from "next/link";
 import React, { RefObject } from "react";
@@ -11,25 +11,17 @@ interface MovieCardProps {
 }
 
 export default function MovieCard(props: MovieCardProps) {
-  const { movie, movieCardRef } = props;
+  const { movie, movieCardRef} = props;
 
-  const handleAddToFavorites = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const handleAddToFavorites = ( e: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
     e.stopPropagation();
     console.log("Añadiendo a favoritos");
-  };
-
-  const handleGoToMoviePage = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-    console.log("Abriendo película");
   };
 
   const isMovie = (movie: MovieType | SerieType): movie is MovieType => {
     return (movie as MovieType).title !== undefined;
   };
+  const posterPath = movie?.poster_path ? `${process.env.NEXT_PUBLIC_TMDB_IMAGES}/t/p/w500/${movie.poster_path}` : defaultPoster
 
   return movie ? (
     <li
@@ -40,8 +32,9 @@ export default function MovieCard(props: MovieCardProps) {
       <div className="relative rounded-xl group">
         <Image
           removeWrapper
+          className={`h-[432px] ${!movie.poster_path ? "object-cover" : ""}`}
           alt="Movie poster"
-          src={`${process.env.NEXT_PUBLIC_TMDB_IMAGES}/t/p/w500/${movie.poster_path}`}
+          src={posterPath}
         />
         <div className="absolute inset-0 bg-black/50 opacity-0 p-5 group-hover:opacity-100 z-10 text-white rounded-xl backdrop-blur-md transition-all flex flex-col">
           <Link href={`${isMovie(movie) ? "/movie/" : "/serie/"}${movie.id}`}>
@@ -49,18 +42,18 @@ export default function MovieCard(props: MovieCardProps) {
               {isMovie(movie) ? movie.title : movie.name}
             </h3>
           </Link>
-          <p className="text-tiny text-neutral-300 text-pretty flex-1">
+          <p className="text-tiny mb-3 text-neutral-300 text-ellipsis line-clamp-[17]">
             {movie.overview}
           </p>
-          <div className="flex justify-between gap-5">
-            <Button className="flex-1" onClick={handleAddToFavorites}>
+          <div className="flex justify-between gap-5 flex-1">
+            <Button className="flex-1 self-end" onClick={handleAddToFavorites}>
               Favorites
             </Button>
           </div>
         </div>
       </div>
       <div>
-        <Link href={`/movie/${movie.id}`}>
+        <Link href={`/${isMovie(movie) ? "movie" : "serie"}/${movie.id}`}>
           <h3 className="font-bold">
             {isMovie(movie) ? movie.title : movie.name}
           </h3>
