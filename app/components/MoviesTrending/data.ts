@@ -3,19 +3,19 @@ import { MenuSelectionType } from "@/types/menu-selection";
 export const MoviesTrendingMenuSelection : MenuSelectionType[] = [
   {
     name: "⏫ Trends Now",
-    url: "now_playing",
+    type: "now_playing",
   },
   {
     name: "🔥 Popular",
-    url: "popular",
+    type: "popular",
   },
   {
     name: "💯 Top Rated",
-    url: "top_rated",
+    type: "top_rated",
   },
   {
     name: "🆕 Upcoming",
-    url: "upcoming",
+    type: "upcoming",
   },
 ];
 
