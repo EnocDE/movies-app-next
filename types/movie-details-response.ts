@@ -52,7 +52,6 @@ export const MovieDetailsSchema = MovieSchema.pick({
   imdb_id: z.string().nullish(),
   origin_country: z.array(z.string()),
   popularity: z.number(),
-  poster_path: z.string(),
   production_companies: z.array(ProductionCompaniesSchema),
   production_countries: z.array(ProductionCountriesSchema),
   release_date: z.string(),
