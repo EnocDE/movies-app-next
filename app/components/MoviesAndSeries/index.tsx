@@ -7,9 +7,10 @@ import { SeriesSchema, SerieType } from "@/types/series-response";
 import { useEffect, useState } from "react";
 import { MoviesTrendingMenuSelection } from "./data";
 import GenreSlider from "@/components/GenreSlider";
+import { MenuSelectionType } from "@/types/menu-selection";
 
 export default function MoviesAndSeries() {
-  const [option, setOption] = useState<"movie" | "tv">("tv");
+  const [option, setOption] = useState<MenuSelectionType["type"]>("tv");
   const [items, setItems] = useState<MovieType[] | SerieType[] | undefined>();
   const [genre, setGenre] = useState<number | undefined>(undefined);
 
