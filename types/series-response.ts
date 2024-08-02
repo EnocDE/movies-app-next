@@ -3,7 +3,7 @@ import { VisualContentDataSchema } from "./movies-series-response"
 
 export const SerieSchema = z.object({
   "adult": z.boolean(),
-  "backdrop_path": z.string(),
+  "backdrop_path": z.string().nullish(),
   "genre_ids": z.array(z.number()),
   "id": z.number(),
   "origin_country": z.array(z.string()),
