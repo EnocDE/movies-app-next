@@ -1,4 +1,4 @@
-import { GenresType, GenreType } from "@/types/gender-response";
+import { GenreType } from "@/types/gender-response";
 
 interface MovieGenreTagProps {
   genreId: GenreType["id"]
