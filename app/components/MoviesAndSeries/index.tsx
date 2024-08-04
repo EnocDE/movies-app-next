@@ -13,9 +13,11 @@ export default function MoviesAndSeries() {
   const [option, setOption] = useState<MenuSelectionType["type"]>("tv");
   const [items, setItems] = useState<MovieType[] | SerieType[] | undefined>();
   const [genre, setGenre] = useState<number | undefined>(undefined);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     (async () => {
+      setLoading(true)
       setGenre(undefined)
       const url = process.env.NEXT_PUBLIC_TMDB_URL + "/3/discover/" + option;
       try {
@@ -31,6 +33,8 @@ export default function MoviesAndSeries() {
         setItems(result.data.results);
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false)
       }
     })();
   }, [option]);
@@ -54,7 +58,7 @@ export default function MoviesAndSeries() {
         setOptionState={setOption}
       />
       <GenreSlider currentGenre={genre} setGenre={setGenre} type={option} />
-      <ItemsList uknownItems={filteredItems} />
+      <ItemsList uknownItems={filteredItems} loading={loading} />
     </div>
   );
 }
