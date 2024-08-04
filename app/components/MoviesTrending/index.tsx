@@ -12,9 +12,11 @@ export default function MoviesTrending() {
   const [trend, setTrend] = useState<MenuSelectionType["type"]>("now_playing");
   const [movies, setMovies] = useState<MovieType[]>();
   const [genre, setGenre] = useState<number | undefined>();
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     (async () => {
+      setLoading(true)
       const filters = `?adults=false`;
       const url = `${process.env.NEXT_PUBLIC_TMDB_URL}/3/movie/${trend}${filters}`;
       setGenre(undefined);
@@ -28,6 +30,8 @@ export default function MoviesTrending() {
         setMovies(result?.data?.results);
       } catch (error) {
         console.error(error);
+      } finally {
+      setLoading(false)
       }
     })();
   }, [trend]);
@@ -50,7 +54,7 @@ export default function MoviesTrending() {
         menuSelectionData={MoviesTrendingMenuSelection}
       />
       <GenreSlider type="movie" setGenre={setGenre} currentGenre={genre} />
-      <ItemsList uknownItems={filteredMovies} />
+      <ItemsList uknownItems={filteredMovies} loading={loading} />
     </section>
   );
 }
