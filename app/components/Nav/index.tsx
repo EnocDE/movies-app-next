@@ -11,8 +11,8 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
-import { menuItems, menuPrincipalItems } from "./nav.data";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { menuPrincipalItems } from "./nav.data";
+import { usePathname } from "next/navigation";
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,14 +50,12 @@ export default function Nav() {
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu>
-        {menuItems.map(({name, url}, index) => (
+        {menuPrincipalItems.map(({name, url}) => (
           <NavbarMenuItem key={name}>
             <Link
               color={
-                index === 2
+                pathname === url
                   ? "primary"
-                  : index === menuItems.length - 1
-                  ? "danger"
                   : "foreground"
               }
               className="w-full"
