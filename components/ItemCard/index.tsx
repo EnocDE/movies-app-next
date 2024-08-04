@@ -1,3 +1,4 @@
+"use client"
 import { MovieType } from "@/types/movies-response";
 import { SerieType } from "@/types/series-response";
 import { defaultPoster, truncateRating } from "@/utils";
@@ -18,7 +19,7 @@ export default function ItemCard(props: ItemCardProps) {
     console.log("Añadiendo a favoritos");
   };
 
-  const asd = (item: MovieType | SerieType): item is MovieType => {
+  const isMovie = (item: MovieType | SerieType): item is MovieType => {
     return (item as MovieType).title !== undefined;
   };
   const posterPath = item?.poster_path ? `${process.env.NEXT_PUBLIC_TMDB_IMAGES}/t/p/w500/${item.poster_path}` : defaultPoster
@@ -32,14 +33,14 @@ export default function ItemCard(props: ItemCardProps) {
       <div className="relative rounded-xl group">
         <Image
           removeWrapper
-          className={`h-[432px] ${!item.poster_path ? "object-cover" : ""}`}
+          className={`h-[432px] aspect-[4/6] ${!item.poster_path ? "object-cover" : ""}`}
           alt="Movie poster"
           src={posterPath}
         />
         <div className="absolute inset-0 bg-black/50 opacity-0 p-5 group-hover:opacity-100 z-10 text-white rounded-xl backdrop-blur-md transition-all flex flex-col">
-          <Link href={`${asd(item) ? "/movie/" : "/serie/"}${item.id}`}>
+          <Link href={`${isMovie(item) ? "/movie/" : "/serie/"}${item.id}`}>
             <h3 className="font-bold mb-5">
-              {asd(item) ? item.title : item.name}
+              {isMovie(item) ? item.title : item.name}
             </h3>
           </Link>
           <p className="text-tiny mb-3 text-neutral-300 text-ellipsis line-clamp-[17]">
@@ -53,14 +54,14 @@ export default function ItemCard(props: ItemCardProps) {
         </div>
       </div>
       <div>
-        <Link href={`/${asd(item) ? "item" : "serie"}/${item.id}`}>
+        <Link href={`/${isMovie(item) ? "item" : "serie"}/${item.id}`}>
           <h3 className="font-bold">
-            {asd(item) ? item.title : item.name}
+            {isMovie(item) ? item.title : item.name}
           </h3>
         </Link>
         <div className="flex justify-between">
           <p className="text-tiny">
-            {asd(item) ? item.release_date : item.first_air_date}
+            {isMovie(item) ? item.release_date : item.first_air_date}
           </p>
           <p className="text-tiny">⭐{truncateRating(item.vote_average)}</p>
         </div>
