@@ -3,15 +3,17 @@
 import { MoviesResultsSchema, MovieType } from "@/types/movies-response";
 import { SerieType } from "@/types/series-response";
 import { useRef } from "react";
+import ElementsNotFound from "../ElementsNotFound";
 import ItemCard from "../ItemCard";
 
 interface ItemsListProps {
   uknownItems: undefined | unknown;
   classNames?: string;
+  loading: boolean;
 }
 
 export default function ItemsList(props: ItemsListProps) {
-  const { uknownItems, classNames } = props;
+  const { uknownItems, classNames, loading } = props;
 
   let items: SerieType[] | MovieType[];
   if (MoviesResultsSchema.safeParse(uknownItems).success) {
@@ -56,13 +58,18 @@ export default function ItemsList(props: ItemsListProps) {
                 itemCardRef={itemCardRef}
               />
             ))
-          ) : (
+          ) : loading 
+            ? (
             <>
               {Array.from({ length: 10 }).map((_, index) => (
                 <ItemCard key={index} itemCardRef={itemCardRef} />
               ))}
             </>
-          )}
+          )
+            : (
+              <ElementsNotFound />
+            )
+        }
         </ul>
         <button
           onClick={slideItemsListToLeft}
