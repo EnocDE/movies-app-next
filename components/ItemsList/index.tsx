@@ -9,7 +9,7 @@ import ItemCard from "../ItemCard";
 interface ItemsListProps {
   uknownItems: undefined | unknown;
   classNames?: string;
-  loading: boolean;
+  loading?: boolean;
 }
 
 export default function ItemsList(props: ItemsListProps) {
@@ -58,18 +58,15 @@ export default function ItemsList(props: ItemsListProps) {
                 itemCardRef={itemCardRef}
               />
             ))
-          ) : loading 
-            ? (
+          ) : loading ? (
             <>
               {Array.from({ length: 10 }).map((_, index) => (
                 <ItemCard key={index} itemCardRef={itemCardRef} />
               ))}
             </>
-          )
-            : (
-              <ElementsNotFound />
-            )
-        }
+          ) : (
+            <ElementsNotFound />
+          )}
         </ul>
         <button
           onClick={slideItemsListToLeft}
