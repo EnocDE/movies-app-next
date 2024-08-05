@@ -56,7 +56,7 @@ export default function ItemCard(props: ItemCardProps) {
         </div>
       </div>
       <div>
-        <Link href={`/${isMovie(item) ? "item" : "serie"}/${item.id}`}>
+        <Link href={`/${isMovie(item) ? "movie" : "serie"}/${item.id}`}>
           <h3 className="font-bold">
             {isMovie(item) ? item.title : item.name}
           </h3>
