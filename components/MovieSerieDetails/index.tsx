@@ -62,7 +62,7 @@ export default function MovieSerieDetails(props: MovieSerieDetailsProps) {
             />
           </div>
           <div className="max-w-3xl">
-            <h1 className="text-5xl font-bold drop-shadow-md">{itemName}</h1>
+            <h1 className="text-3xl md:text-5xl font-bold drop-shadow-md">{itemName}</h1>
             <h2 className="text-xl">{itemOriginalName}</h2>
             <DetailsGenresList genres={itemGenres} />
             <p className="max-w-2xl text-pretty">{itemOverview}</p>
