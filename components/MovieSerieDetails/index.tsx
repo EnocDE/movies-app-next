@@ -46,14 +46,14 @@ export default function MovieSerieDetails(props: MovieSerieDetailsProps) {
   const itemRecommendations = recommendations  
 
   return (
-    <main
+    <section
       className="w-full min-h-screen bg-cover bg-center"
       style={{
         backgroundImage: `url(${itemBackdrop})`,
       }}
     >
       <div className="relative w-full h-full inset-0 to-black/10 bg-gradient-to-t via-black/50 from-black/90 flex flex-col">
-        <div className="flex flex-col lg:flex-row justify-center items-center gap-10 text-white relative z-10 p-20">
+        <main className="flex flex-col lg:flex-row justify-center items-center gap-10 text-white relative z-10 p-20">
           <div className="shadow-md">
             <Image
               className="w-full h-auto max-w-[500px] max-h-[700px]"
@@ -88,7 +88,7 @@ export default function MovieSerieDetails(props: MovieSerieDetailsProps) {
               )}
             </ul>
           </div>
-        </div>
+        </main>
 
         <section>
           <h3 className="text-3xl font-bold text-white mx-auto w-[90%] mb-5">Recommended movies</h3>
@@ -98,6 +98,6 @@ export default function MovieSerieDetails(props: MovieSerieDetailsProps) {
           />
         </section>
       </div>
-    </main>
+    </section>
   );
 }
