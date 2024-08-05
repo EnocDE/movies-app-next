@@ -9,10 +9,12 @@ import React, { RefObject } from "react";
 interface ItemCardProps {
   item?: MovieType | SerieType;
   itemCardRef?: RefObject<HTMLLIElement>;
+  imageClass?: string
+  liClass?: string
 }
 
 export default function ItemCard(props: ItemCardProps) {
-  const { item, itemCardRef} = props;
+  const { item, itemCardRef, imageClass, liClass} = props;
 
   const handleAddToFavorites = ( e: React.MouseEvent<HTMLButtonElement, MouseEvent> ) => {
     e.stopPropagation();
@@ -28,12 +30,12 @@ export default function ItemCard(props: ItemCardProps) {
     <li
       ref={itemCardRef || null}
       key={item.id}
-      className="w-72 snap-center flex-shrink-0"
+      className={`w-72 snap-center flex-shrink-0 ${liClass}`}
     >
       <div className="relative rounded-xl group">
         <Image
           removeWrapper
-          className={`h-[432px] aspect-[4/6] ${!item.poster_path ? "object-cover" : ""}`}
+          className={`h-[432px] aspect-[4/6] ${!item.poster_path ? "object-cover" : ""} ${imageClass}`}
           alt="Movie poster"
           src={posterPath}
         />
