@@ -1,4 +1,5 @@
 import AllMoviesSeries from "@/components/AllMoviesSeries";
+import Filters from "@/components/Filters";
 import { api } from "@/lib/AxiosConfig";
 import { SeriesSchema } from "@/types/series-response";
 import { redirect } from "next/navigation";
@@ -16,13 +17,51 @@ async function getSeries({ page }: { page: string }) {
   }
 }
 
-export default async function Page(params: { searchParams: { page: string } }) {
+export default async function Page(params: {
+  searchParams: {
+    page?: string;
+    stars?: string;
+    order?: string;
+    year?: string;
+  };
+}) {
   const page = params.searchParams.page || "1";
-  if (+page > 500) return redirect("/series")
+  if (+page > 500) return redirect("/series");
   const items = await getSeries({ page });
 
+  const filterItems = () => {
+    let filterItems = items;
+
+    if (params.searchParams.order) {
+      params.searchParams.order === "ASC"
+        ? (filterItems = filterItems?.toSorted((a, b) =>
+            a.name.localeCompare(b.name)
+          ))
+        : (filterItems = filterItems?.toSorted((a, b) =>
+            b.name.localeCompare(a.name)
+          ));
+    }
+    if (params.searchParams.stars) {
+      filterItems = filterItems?.filter(
+        (item) => item.vote_average > +params.searchParams.stars!
+      );
+    }
+    if (params.searchParams.year && params.searchParams.year !== "All") {
+      filterItems = filterItems?.filter(
+        (item) =>
+          new Date(item.first_air_date) > new Date(params.searchParams.year!)
+      );
+    }
+
+    return filterItems;
+  };
+
+  const filteredItems = filterItems();
+
   return (
-    <AllMoviesSeries uknownItems={items} />
+    <>
+      <Filters />
+      <AllMoviesSeries uknownItems={filteredItems} />
+    </>
   );
 }
-
